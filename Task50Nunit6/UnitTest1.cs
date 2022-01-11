@@ -1,48 +1,41 @@
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
-using System.Linq;
 
 namespace Task40Nunit
 {
     public class Tests
     {
         [SetUp]
-        public void Setup()
-        {
-        }
+        public void Setup() {}
 
         [Test]
 
-        public void Test5()
-        {
-
+        public void Test5() {
             IWebDriver driver = new ChromeDriver();
 
             driver.Navigate().GoToUrl("https://demo.seleniumeasy.com/basic-select-dropdown-demo.html");
             driver.Manage().Window.Maximize();
 
             SelectElement select = new SelectElement(driver.FindElement(By.Id("multi-select")));
+
             Assert.IsTrue(select.IsMultiple);
 
             select.SelectByIndex(2);
             select.SelectByIndex(4);
             select.SelectByIndex(7);
+
             Assert.AreEqual(3, select.AllSelectedOptions.Count);
 
             driver.Close();
-
         }
             [Test]
        
-        public void Test6one()
-        {
+        public void Test6one() {
             IWebDriver driver = new ChromeDriver();
-
 
             driver.Navigate().GoToUrl("https://demo.seleniumeasy.com/javascript-alert-box-demo.html");
             driver.Manage().Window.Maximize();
@@ -56,14 +49,11 @@ namespace Task40Nunit
 
             Assert.IsTrue(driver.FindElement(By.CssSelector("#confirm-demo")).Displayed, "Message is not displayed");
 
-
             driver.Close();
         }
         [Test]
-        public void Test6two()
-        {
+        public void Test6two() {
             IWebDriver driver = new ChromeDriver();
-
 
             driver.Navigate().GoToUrl("https://demo.seleniumeasy.com/javascript-alert-box-demo.html");
             driver.Manage().Window.Maximize();
@@ -80,10 +70,8 @@ namespace Task40Nunit
             driver.Close();
         }
         [Test]
-        public void Test6three()
-        {
+        public void Test6three() {
             IWebDriver driver = new ChromeDriver();
-
 
             driver.Navigate().GoToUrl("https://demo.seleniumeasy.com/javascript-alert-box-demo.html");
             driver.Manage().Window.Maximize();
@@ -93,7 +81,6 @@ namespace Task40Nunit
             Thread.Sleep(2000);
 
             IAlert alert = driver.SwitchTo().Alert();
-
             alert.SendKeys("Olga");
             alert.Accept();
 
@@ -102,10 +89,8 @@ namespace Task40Nunit
             driver.Close();
         }
         [Test]
-        public void Test7()
-        {
+        public void Test7() {
             IWebDriver driver = new ChromeDriver();
-
 
             driver.Navigate().GoToUrl("https://demo.seleniumeasy.com/dynamic-data-loading-demo.html");
             driver.Manage().Window.Maximize();
@@ -113,31 +98,15 @@ namespace Task40Nunit
             var newUserButton = driver.FindElement(By.CssSelector(".btn-default"));
             newUserButton.Click();
 
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(7));
-            var element = wait.Until(condition =>
-            {
-                try
-                {
-                    Assert.IsTrue(driver.FindElement(By.CssSelector("#loading")).Displayed, "New user is not displayed");
-                    return true;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    return false;
-                }
-                catch (NoSuchElementException)
-                {
-                    return false;
-                }
-            });
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            var element = wait.Until(condition => driver.FindElement(By.CssSelector("#loading")).Displayed);
 
+            Assert.IsTrue(element, "New user is not displayed");
             driver.Close();
         }
         [Test]
-        public void Test8()
-        {
+        public void Test8() {
             IWebDriver driver = new ChromeDriver();
-
 
             driver.Navigate().GoToUrl("https://demo.seleniumeasy.com/bootstrap-download-progress-demo.html");
             driver.Manage().Window.Maximize();
@@ -145,28 +114,12 @@ namespace Task40Nunit
             var downloadButton = driver.FindElement(By.CssSelector("#cricle-btn"));
             downloadButton.Click();
 
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(13));
-            var element = wait.Until(condition =>
-            {
-                try
-                {
-                    Assert.IsTrue(driver.FindElement(By.CssSelector(".clipauto")).Displayed, "Element is not found");
-                    return true;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    return false;
-                }
-                catch (NoSuchElementException)
-                {
-                    return false;
-                }
-            });
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            var element = wait.Until(condition => driver.FindElement(By.ClassName("clipauto")).Displayed);
+            Assert.IsTrue(element, "Element is not found");
 
             driver.Navigate().Refresh();
-
             driver.Close();
-
         }
     }
 }
