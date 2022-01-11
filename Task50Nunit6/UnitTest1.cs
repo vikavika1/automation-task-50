@@ -17,6 +17,27 @@ namespace Task40Nunit
         }
 
         [Test]
+
+        public void Test5()
+        {
+
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://demo.seleniumeasy.com/basic-select-dropdown-demo.html");
+            driver.Manage().Window.Maximize();
+
+            SelectElement select = new SelectElement(driver.FindElement(By.Id("multi-select")));
+            Assert.IsTrue(select.IsMultiple);
+
+            select.SelectByIndex(2);
+            select.SelectByIndex(4);
+            select.SelectByIndex(7);
+            Assert.AreEqual(3, select.AllSelectedOptions.Count);
+
+            driver.Close();
+
+        }
+            [Test]
        
         public void Test6one()
         {
